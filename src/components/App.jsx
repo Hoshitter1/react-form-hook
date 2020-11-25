@@ -1,26 +1,54 @@
 import React, { useState } from "react";
 
 function App() {
-  const [name, setName] = useState("");
-  const [nameHeading, setNameHeading] = useState("");
+  const [fullName, setFullName] = useState({
+    fName: "",
+    lName: "",
+  });
   function handleChange(event) {
-    setName(event.target.value);
+    const { value, name } = event.target;
+
+    setFullName((prevValue) => {
+      if (name === "fname") {
+        return {
+          fName: value,
+          lName: prevValue.lName,
+        };
+      } else if (name === "lname") {
+        return {
+          fName: prevValue.fName,
+          lName: value,
+        };
+      }
+    });
   }
+
   function clickEvent(event) {
-    setNameHeading(name);
+    // Do something
+    console.log("Clicked");
     event.preventDefault();
     // This func prevent the page from refreshing
   }
 
   return (
     <div className="container">
-      <h1>Hello {nameHeading}</h1>
+      <h1>
+        Hello {fullName.fName} {fullName.lName}
+      </h1>
       <form onSubmit={clickEvent}>
         <input
-          value={name}
+          name="fname"
+          value={fullName.fName}
           onChange={handleChange}
           type="text"
-          placeholder="What's your name?"
+          placeholder="your first anem"
+        />
+        <input
+          name="lname"
+          value={fullName.lName}
+          onChange={handleChange}
+          type="text"
+          placeholder="your last name"
         />
         <button type="submit">Submit</button>
       </form>
