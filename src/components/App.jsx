@@ -1,25 +1,16 @@
 import React, { useState } from "react";
 
 function App() {
-  const [fullName, setFullName] = useState({
+  const [contact, setContact] = useState({
     fName: "",
     lName: "",
+    email: "",
   });
+
   function handleChange(event) {
     const { value, name } = event.target;
-
-    setFullName((prevValue) => {
-      if (name === "fname") {
-        return {
-          fName: value,
-          lName: prevValue.lName,
-        };
-      } else if (name === "lname") {
-        return {
-          fName: prevValue.fName,
-          lName: value,
-        };
-      }
+    setContact((prevValue) => {
+      return { ...prevValue, [name]: value };
     });
   }
 
@@ -33,19 +24,27 @@ function App() {
   return (
     <div className="container">
       <h1>
-        Hello {fullName.fName} {fullName.lName}
+        Hello {contact.fName} {contact.lName}
       </h1>
+      <p>{contact.email}</p>
       <form onSubmit={clickEvent}>
         <input
-          name="fname"
-          value={fullName.fName}
+          name="fName"
+          value={contact.fName}
           onChange={handleChange}
           type="text"
           placeholder="your first anem"
         />
         <input
-          name="lname"
-          value={fullName.lName}
+          name="lName"
+          value={contact.lName}
+          onChange={handleChange}
+          type="text"
+          placeholder="your last name"
+        />
+        <input
+          name="email"
+          value={contact.email}
           onChange={handleChange}
           type="text"
           placeholder="your last name"
@@ -55,6 +54,7 @@ function App() {
     </div>
   );
 }
+
 // 1. value of input has to be set for "controlled components'
 // 2. form on submit has th4e same effect as button onClick
 export default App;
